@@ -12,11 +12,10 @@
 
 import { insertUser } from "../models/UsuariosModel.js";
 
-export async function registerUser(name, username, cedula, tel1, tel2, address1, address2) {
+export async function registerUser(username, name,  cedula, tel1, tel2, address1, address2) {
 	return new Promise(async (resolve, reject) => {
 		try {
-			
-			const data = await insertUser(name, username, cedula, tel1, tel2, address1, address2);
+			const data = await insertUser(username, name,  cedula, tel1, tel2, address1, address2);
 			console.log("data", data);
 
 			resolve("OK");
@@ -29,7 +28,6 @@ export async function registerUser(name, username, cedula, tel1, tel2, address1,
 		}
 	});
 }
-
 
 export async function updateUserProfile(req, res) {
 	const user_id = req.personalinformation.id;

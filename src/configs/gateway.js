@@ -20,11 +20,15 @@ extend type Query {
 	registerUser: RegistrationResult
 }
 
-type User @key(fields: "id_usuario") {
-	id_usuario: ID
-	email: String
-	nombre_usuario: String
-	contrasena: String
+type User @key(fields: "id") {
+	id: ID
+	name: String
+	username: String
+	cedula: String
+	tel1: String
+	tel2: String
+	address1: String
+	address2: String
 }
 
 #INPUTS
@@ -63,7 +67,7 @@ type LoginGoogleResult {
 }
 
 type Mutation {
-	registerUser(input: UserInput!): RegistrationResult!
+	registerInfoUser(input: UserInput!): RegistrationResult!
 	loginUser(input: UserInput!): LoginResult
 	loginGoogleUser(input: CredentialLoginGoogle!): LoginGoogleResult
 }
@@ -72,9 +76,22 @@ type Mutation {
 // Define los resolutores
 export const resolvers = {
 
+	Query: {
+		users: async () => {
+			console.log("AAAAAAAAAAAAAAAA");
+			try {
+				const data = await getUsers();
+				console.log("------------->", data[0]);
+				return data[0];
+			} catch (error) {
+				throw new Error(`Error al obtener los usuarios: ${error}`);
+			}
+		},
+	},
+
 	Mutation: {
 
-		registerUser: async (_, { input }) => {
+		registerInfoUser: async (_, { input }) => {
 			try {
 				const { name, username, cedula, tel1, tel2, address1, address2 } = input;
 
@@ -86,7 +103,6 @@ export const resolvers = {
 				throw new Error(`Error al registrar el usuario: ${error.message}`);
 			}
 		},
-
 
 		updateUserProfile: async (_, args) => {
 			// Llama a la función updateUserProfile con los argumentos proporcionados

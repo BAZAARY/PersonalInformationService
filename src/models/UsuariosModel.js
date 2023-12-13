@@ -8,7 +8,7 @@ import { supabase } from "../configs/databaseConfig.js";
 export const getUsers = async () => {
 	try {
 		// Seleccionar todos los usuarios de la base de datos con todos sus atributos
-		const { data, error: queryError } = await supabase.from("usuarios").select("*");
+		const { data, error: queryError } = await supabase.from("personalinformation").select("*");
 
 		//Si hay un error durante la consulta
 		if (queryError) {
@@ -21,12 +21,12 @@ export const getUsers = async () => {
 	}
 };
 
-export const insertUser = async (name, username, cedula, tel1, tel2, address1, address2) => {
+export const insertUser = async (username, name,  cedula, tel1, tel2, address1, address2) => {
 	try {
 		// Guardar los datos adicionales del usuario en la tabla 'usuarios'
 		const { data, error: insertError } = await supabase
 			.from("personalinformation")
-			.insert([{ name, username, cedula, tel1, tel2, address1, address2 }]);
+			.insert([{ username, name, cedula, tel1, tel2, address1, address2 }]);
 
 		//Si hay un error durante la insercion de los datos del usuario
 		if (insertError) {
