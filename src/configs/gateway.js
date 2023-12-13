@@ -70,6 +70,16 @@ type Mutation {
 	registerInfoUser(input: UserInput!): RegistrationResult!
 	loginUser(input: UserInput!): LoginResult
 	loginGoogleUser(input: CredentialLoginGoogle!): LoginGoogleResult
+	updateUserProfile(
+		id: ID!
+		name: String
+		username: String
+		cedula: String
+		tel1: String
+		tel2: String
+		address1: String
+		address2: String
+	  ): String
 }
 `;
 
@@ -105,22 +115,17 @@ export const resolvers = {
 		},
 
 		updateUserProfile: async (_, args) => {
-			// Llama a la función updateUserProfile con los argumentos proporcionados
-			const { nombre_usuario, nickname, tel1, tel2, address1, address2 } = args;
-			// Debes manejar la respuesta de updateUserProfile según tu implementación
-			// Aquí asumimos que retorna una cadena "Perfil actualizado correctamente"
-			return updateUserProfile({
-				nombre_usuario,
-				nickname,
-				tel1,
-				tel2,
-				address1,
-				address2,
-			})
-				.then(() => "Perfil actualizado correctamente")
-				.catch((error) => {
-					throw new Error(`Error al actualizar el perfil: ${error.message}`);
-				});
-		},
+			const { id, username, name, cedula, tel1, tel2, address1, address2 } = args;
+		
+			try {
+			  // Llama a la función updateUserProfile con los argumentos proporcionados
+			  await updateUserProfile(id, username, name, cedula, tel1, tel2, address1, address2);
+		
+			  // Retorna un mensaje indicando que el perfil se ha actualizado correctamente
+			  return "Perfil actualizado correctamente";
+			} catch (error) {
+			  throw new Error(`Error al actualizar el perfil: ${error.message}`);
+			}
+		  },
 	},
 };

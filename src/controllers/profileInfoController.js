@@ -10,7 +10,7 @@
  * 
  */
 
-import { insertUser } from "../models/UsuariosModel.js";
+import { insertUser, updateUserData } from "../models/UsuariosModel.js";
 
 export async function registerUser(username, name,  cedula, tel1, tel2, address1, address2) {
 	return new Promise(async (resolve, reject) => {
@@ -29,28 +29,22 @@ export async function registerUser(username, name,  cedula, tel1, tel2, address1
 	});
 }
 
-export async function updateUserProfile(req, res) {
-	const user_id = req.personalinformation.id;
-
-	const {
-		nombre_usuario,
-		nickname,
-		tel1,
-		tel2,
-		address1,
-		address2
-	} = req.body;
-
-	newData = {};
-	if (nombre_usuario) newData["nombre_usuario"] = nombre_usuario;
-	if (nickname) newData["nickname"] = nickname;
-	if (tel1) newData["tel1"] = tel1;
-	if (tel2) newData["tel2"] = tel2;
-	if (address1) newData["address1"] = address1;
-	if (address2) newData["address2"] = address2;
-	
-	await updateUserData(newData, user_id);
-
-	res.status(280).json("Perfil actualizado correctamente");
-	return;
-}
+export async function updateUserProfile(id, username, name, cedula, tel1, tel2, address1, address2) {
+	try {
+	  let newData = {};
+  
+	  if (name) newData["name"] = name;
+	  if (username) newData["username"] = username;
+	  if (cedula) newData["cedula"] = cedula;
+	  if (tel1) newData["tel1"] = tel1;
+	  if (tel2) newData["tel2"] = tel2;
+	  if (address1) newData["address1"] = address1;
+	  if (address2) newData["address2"] = address2;
+  
+	  await updateUserData(newData, id);
+  
+	  return;
+	} catch (error) {
+	  throw new Error(`Error al actualizar el perfil: ${error.message}`);
+	}
+  }

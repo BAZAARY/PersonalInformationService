@@ -54,7 +54,7 @@ export const updateUserData = async (newData, id_usuario) => {
 
 		return data;
 	} catch (error) {
-		throw new Error("DB: Error updating user password");
+		throw new Error(error.message);
 	}
 };
 
