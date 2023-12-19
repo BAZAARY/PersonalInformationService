@@ -33,12 +33,6 @@ type User @key(fields: "id") {
 
 #INPUTS
 
-input UserInput {
-	email: String!
-	nombre_usuario: String
-	contrasena: String!
-}
-
 input UserInfoInput {
 	name: String!
 	username: String!
@@ -49,27 +43,10 @@ input UserInfoInput {
 	address2: String
 }
 
-input CredentialLoginGoogle {
-	clientId: String!
-	credential: String!
-}
-
 #LO QUE RETORNA AL GATEWAY/FRONTEND
 
 type RegistrationResult {
 	message: String!
-}
-
-type LoginResult {
-	user: User
-	token: String
-	message: String
-}
-
-type LoginGoogleResult {
-	user: User
-	token: String
-	message: String
 }
 
 type Mutation {
