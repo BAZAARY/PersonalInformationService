@@ -17,11 +17,6 @@ import { getUserByUserName } from "../models/UsuariosModel.js";
 export const typeDefs = gql`
  
 extend type Query {
-	users: User
-	registerUser: RegistrationResult
-}
-
-extend type Query {
     userById(id: ID!): User
 }
 
@@ -39,6 +34,16 @@ type User @key(fields: "id") {
 #INPUTS
 
 input UserInput {
+	name: String!
+	username: String!
+	cedula: String!
+	tel1: String!
+	tel2: String
+	address1: String!
+	address2: String
+}
+
+input UserInfoInput {
 	name: String!
 	username: String!
 	cedula: String!
@@ -72,9 +77,7 @@ type LoginGoogleResult {
 }
 
 type Mutation {
-	registerInfoUser(input: UserInput!): RegistrationResult!
-	loginUser(input: UserInput!): LoginResult
-	loginGoogleUser(input: CredentialLoginGoogle!): LoginGoogleResult
+	registerInfoUser(input: UserInfoInput!): RegistrationResult!
 	updateUserProfile(
 		id: ID!
 		name: String
