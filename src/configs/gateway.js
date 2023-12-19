@@ -48,16 +48,6 @@ input UserInput {
 	address2: String
 }
 
-input UserInfoInput {
-	name: String!
-	username: String!
-	cedula: String!
-	tel1: String!
-	tel2: String
-	address1: String!
-	address2: String
-}
-
 input CredentialLoginGoogle {
 	clientId: String!
 	credential: String!
@@ -65,8 +55,26 @@ input CredentialLoginGoogle {
 
 #LO QUE RETORNA AL GATEWAY/FRONTEND
 
+type RegistrationResult {
+	message: String!
+}
+
+type LoginResult {
+	user: User
+	token: String
+	message: String
+}
+
+type LoginGoogleResult {
+	user: User
+	token: String
+	message: String
+}
+
 type Mutation {
-	registerInfoUser(input: UserInfoInput!): RegistrationResult!
+	registerInfoUser(input: UserInput!): RegistrationResult!
+	loginUser(input: UserInput!): LoginResult
+	loginGoogleUser(input: CredentialLoginGoogle!): LoginGoogleResult
 	updateUserProfile(
 		id: ID!
 		name: String
