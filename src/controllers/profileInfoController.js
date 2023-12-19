@@ -10,7 +10,9 @@
  * 
  */
 
-import { insertUser, updateUserData } from "../models/UsuariosModel.js";
+
+import { insertUser, updateUserData, getUser } from "../models/UsuariosModel.js";
+import { supabase } from "../configs/databaseConfig.js";
 
 export async function registerUser(username, name,  cedula, tel1, tel2, address1, address2) {
 	return new Promise(async (resolve, reject) => {
@@ -28,6 +30,36 @@ export async function registerUser(username, name,  cedula, tel1, tel2, address1
 		}
 	});
 }
+
+export const getUserById = async (user_id) => {
+	try {
+	  console.log('Entrando en getUserById');
+	  const { data, error } = await supabase
+		.from("personalinformation")
+		.select("*")
+		.eq("id", user_id)
+		.single();
+  
+	  console.log('Resultado de getUserById:', data);
+  
+	  if (error) {
+		console.error('Error al obtener el usuario por ID:', error);
+		throw error;
+	  }
+  
+	  if (!data) {
+		console.error('Usuario no encontrado');
+		throw new Error("Usuario no encontrado");
+	  }
+  
+	  return data;
+	} catch (error) {
+	  console.error("Error al obtener el usuario por ID:", error);
+	  throw new Error("DB: Error fetching user data by ID");
+	}
+  };
+  
+  
 
 export async function updateUserProfile(id, username, name, cedula, tel1, tel2, address1, address2) {
 	try {

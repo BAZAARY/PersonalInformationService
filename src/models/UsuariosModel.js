@@ -21,6 +21,24 @@ export const getUsers = async () => {
 	}
 };
 
+export const getUser = async (user_id) => {
+	try {
+	  const { data, error } = await supabase
+		.from("personalinformation")
+		.select("*")
+		.eq("id", user_id)
+		.single();
+  
+	  if (error) {
+		throw error;
+	  }
+  
+	  return data || null;
+	} catch (error) {
+	  throw new Error("DB: Error fetching user data by ID");
+	}
+  };
+
 export const insertUser = async (username, name,  cedula, tel1, tel2, address1, address2) => {
 	try {
 		// Guardar los datos adicionales del usuario en la tabla 'usuarios'

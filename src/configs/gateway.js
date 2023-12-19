@@ -1,6 +1,7 @@
 import {
 	registerUser,
 	updateUserProfile,
+	getUserById
 } from "../controllers/profileInfoController.js";
 import { gql } from "apollo-server-express";
 import { getUserByUserName } from "../models/UsuariosModel.js";
@@ -20,6 +21,10 @@ extend type Query {
 	registerUser: RegistrationResult
 }
 
+extend type Query {
+    userById(id: ID!): User
+}
+
 type User @key(fields: "id") {
 	id: ID
 	name: String
@@ -33,7 +38,7 @@ type User @key(fields: "id") {
 
 #INPUTS
 
-input UserInput {
+input UserInfoInput {
 	name: String!
 	username: String!
 	cedula: String!
@@ -43,33 +48,14 @@ input UserInput {
 	address2: String
 }
 
-input CredentialLoginGoogle {
-	clientId: String!
-	credential: String!
-}
-
 #LO QUE RETORNA AL GATEWAY/FRONTEND
 
 type RegistrationResult {
 	message: String!
 }
 
-type LoginResult {
-	user: User
-	token: String
-	message: String
-}
-
-type LoginGoogleResult {
-	user: User
-	token: String
-	message: String
-}
-
 type Mutation {
-	registerInfoUser(input: UserInput!): RegistrationResult!
-	loginUser(input: UserInput!): LoginResult
-	loginGoogleUser(input: CredentialLoginGoogle!): LoginGoogleResult
+	registerInfoUser(input: UserInfoInput!): RegistrationResult!
 	updateUserProfile(
 		id: ID!
 		name: String
@@ -97,6 +83,15 @@ export const resolvers = {
 				throw new Error(`Error al obtener los usuarios: ${error}`);
 			}
 		},
+
+		userById: async (_, { id }) => {
+			try {
+			  const user = await getUserById(id);
+			  return user;
+			} catch (error) {
+			  throw new Error(`Error al obtener el usuario por ID: ${error.message}`);
+			}
+		  },
 	},
 
 	Mutation: {
