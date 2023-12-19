@@ -38,6 +38,16 @@ type User @key(fields: "id") {
 
 #INPUTS
 
+input UserInput {
+	name: String!
+	username: String!
+	cedula: String!
+	tel1: String!
+	tel2: String
+	address1: String!
+	address2: String
+}
+
 input UserInfoInput {
 	name: String!
 	username: String!
@@ -48,11 +58,12 @@ input UserInfoInput {
 	address2: String
 }
 
-#LO QUE RETORNA AL GATEWAY/FRONTEND
-
-type RegistrationResult {
-	message: String!
+input CredentialLoginGoogle {
+	clientId: String!
+	credential: String!
 }
+
+#LO QUE RETORNA AL GATEWAY/FRONTEND
 
 type Mutation {
 	registerInfoUser(input: UserInfoInput!): RegistrationResult!
