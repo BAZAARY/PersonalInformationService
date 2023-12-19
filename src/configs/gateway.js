@@ -17,10 +17,10 @@ import { getUserByUserName } from "../models/UsuariosModel.js";
 export const typeDefs = gql`
  
 extend type Query {
-    userById(id: ID!): User
+    userById(id: ID!): UserInfo
 }
 
-type User @key(fields: "id") {
+type UserInfo @key(fields: "id") {
 	id: ID
 	name: String
 	username: String
