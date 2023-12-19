@@ -34,13 +34,9 @@ type User @key(fields: "id") {
 #INPUTS
 
 input UserInput {
-	name: String!
-	username: String!
-	cedula: String!
-	tel1: String!
-	tel2: String
-	address1: String!
-	address2: String
+	email: String!
+	nombre_usuario: String
+	contrasena: String!
 }
 
 input UserInfoInput {
